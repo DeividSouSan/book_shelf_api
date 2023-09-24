@@ -5,7 +5,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/books*": {"origins": "http://localhost:5173"}})
+CORS(app)
 
 current_directory = getcwd()
 db_file_path = f"{current_directory}/mock/db.json"
@@ -22,7 +22,7 @@ else:
 
 @app.route("/")
 def index():
-    return 'Digite /books /book/<id> ou /insertbook'
+    return 'API funcionando corretamente'
 
 
 @app.route("/books", methods=['GET'])
@@ -32,7 +32,6 @@ def all_books():
         data_json = json.loads(data)
 
     response = jsonify(data_json)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
@@ -48,7 +47,6 @@ def get_book(id: int = 0):
         return jsonify("erro: Não existe livro com o ID forncecido."), 400
 
     response = jsonify(current_book)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
@@ -81,7 +79,6 @@ def insert_book():
         db.write(data_str)
 
     response = jsonify(new_book_data)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
@@ -102,7 +99,6 @@ def delete_book(id):
         db.write(data_str)
 
     response = jsonify(removed_book)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
@@ -124,7 +120,6 @@ def update_index():
         db.write(new_books_data_str)
 
     response = jsonify(new_books_data)
-    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
